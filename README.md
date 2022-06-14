@@ -3,7 +3,7 @@
 # # Installation (manual)
 
 - Click on releases and find the latest release
-- Download the zip file for the release
+- Download the source code zip file for the release
 - Extract the zip file to a folder on your drive
 
 - Navigate to chrome://extensions in your browser
