@@ -1,0 +1,31 @@
+{
+  "update_url": "https://clients2.google.com/service/update2/crx",  
+    "name": "Detooned",
+    "description": "Adds dynamite claim status for Degen Toonz NFT Project to OpenSea",
+    "version": "1.1",
+    "manifest_version": 3,
+    "action": {
+      "icons": {
+        "128": "icon.png"
+      },
+      "default_popup": "index.html"
+    },
+    "content_scripts": [
+      {
+        "matches": [
+          "https://opensea.io/collection/degentoonz-collection/*"
+        ],
+        "css": ["static/css/main.css"],
+        "js": ["static/js/worker.js"],
+        "run_at": "document_end"
+      }
+    ], 
+    "background": {
+      "service_worker": "static/js/background.js"
+    },
+    "host_permissions": ["https://*.opensea.io/*","https://detooned.s3.amazonaws.com/*", "https://*/"],
+    "icons": {
+      "128": "icon.png"
+    }
+  }
+  

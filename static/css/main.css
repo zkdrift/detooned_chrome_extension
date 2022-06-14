@@ -1,0 +1,12 @@
+.claimed-toon {
+    color: aqua;
+}
+
+.unclaimed-toon {
+    color: red;
+    background-color: yellow;
+}
+
+.unclaimed-toon::before {
+    content: "🧨🧨🧨";
+}
