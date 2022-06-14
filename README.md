@@ -4,7 +4,10 @@
 
 - Click on releases and find the latest release
 - Download the source code zip file for the release
+- ![image](https://user-images.githubusercontent.com/130143/173540852-b0ffd92c-7b0a-468e-8817-40b034de8181.png)
 - Extract the zip file to a folder on your drive
+- ![image](https://user-images.githubusercontent.com/130143/173540880-364faf82-f2fa-43f2-9cf0-8b9405392f56.png)
+
 
 - Navigate to chrome://extensions in your browser
 - Enable "Developer Mode" 
