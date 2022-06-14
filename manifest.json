@@ -13,7 +13,8 @@
     "content_scripts": [
       {
         "matches": [
-          "https://opensea.io/collection/degentoonz-collection/*"
+          "https://opensea.io/collection/degentoonz-collection/*",
+          "https://opensea.io/assets/ethereum/*"
         ],
         "css": ["static/css/main.css"],
         "js": ["static/js/worker.js"],
