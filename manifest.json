@@ -23,7 +23,7 @@
     "background": {
       "service_worker": "static/js/background.js"
     },
-    "host_permissions": ["https://*.opensea.io/*","https://detooned.s3.amazonaws.com/*", "https://*/"],
+    "host_permissions": ["https://detooned.s3.amazonaws.com/detooned.json"],
     "icons": {
       "128": "icon.png"
     }
