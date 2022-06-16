@@ -2,7 +2,8 @@
 
 # # Installation (Chrome Web Store)
 
-https://chrome.google.com/webstore/detail/detooned/opjegklogaichjhmidoakmjcekcpjnfl?hl=en&authuser=0
+- Visit the web store, add to your browser
+- https://chrome.google.com/webstore/detail/detooned/opjegklogaichjhmidoakmjcekcpjnfl?hl=en&authuser=0
 
 
 # # Installation (manual)
