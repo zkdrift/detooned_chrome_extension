@@ -1,5 +1,10 @@
 # detooned_chrome_extension
 
+# # Installation (Chrome Web Store)
+
+https://chrome.google.com/webstore/detail/detooned/opjegklogaichjhmidoakmjcekcpjnfl?hl=en&authuser=0
+
+
 # # Installation (manual)
 
 - Click on releases and find the latest release
