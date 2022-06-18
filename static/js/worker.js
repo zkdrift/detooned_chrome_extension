@@ -3,6 +3,7 @@ needs_update = false;
 
 function updateToons() {  
   if (needs_update && toons.length > 0) {
+      // update search listings
       matches = document.querySelectorAll(".AssetsSearchView--assets > div > div > div > div > div > article > a > div:nth-child(2) > div:nth-child(1) > div > div")
       matches.forEach(function(el) {
           if (el.innerHTML) {
@@ -19,7 +20,7 @@ function updateToons() {
           }
       });
 
-      //item--title
+      // update individual item pages
       matches = document.querySelectorAll(".item--title");
       matches.forEach(function(el) {
           els = el.innerHTML.split('TOONZ #');
@@ -46,7 +47,7 @@ const observer = new MutationObserver((mutations) => {
     });
  });
 
-if (document.querySelector("[role=grid]") != null) {
+if (document.querySelector("[role=grid]") != null) { // monitor the page for any changes
   observer.observe(document.querySelector("[role=grid]"), { 
     attributes: true, 
     subtree: true,
@@ -55,16 +56,18 @@ if (document.querySelector("[role=grid]") != null) {
 }
 
 function syncChain() {
-    chrome.runtime.sendMessage({function: "updateToons"}, function(response) { 
-      toons = [];      
-      response.forEach(function(v) {
-          toons.unshift(v.token_id);
-      });
-      
-      needs_update = true;
-      updateToons();
-  });
-  setTimeout(syncChain, 120000);
+  if (chrome.runtime?.id) { // make sure in context of window still and not unloaded
+      chrome.runtime.sendMessage({function: "updateToons"}, function(response) { // send a message to the background service to re-fetch data of claimed toons
+        toons = [];      
+        response.forEach(function(v) {
+            toons.unshift(v.token_id);
+        });
+        
+        needs_update = true;
+        updateToons(); // update the page to show
+    });
+  }
+  setTimeout(syncChain, 120000); // run this again in a few minutes
 }
 
 syncChain();
