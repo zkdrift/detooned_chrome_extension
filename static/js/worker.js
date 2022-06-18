@@ -1,6 +1,8 @@
 toons = [];
 needs_update = false;
 
+
+
 function updateToons() {  
   if (needs_update && toons.length > 0) {
       // update search listings
@@ -8,14 +10,33 @@ function updateToons() {
       matches.forEach(function(el) {
           if (el.innerHTML) {
             els = el.innerHTML.split('TOONZ #');
-            els = els[1].split(' (Claimed)');
+            els = els[1].split(' (');
             token_id = els[0];        
-            
-            if (toons.includes(parseInt(token_id))) {
+            if (true) {
+              if (toons.includes(parseInt(token_id))) {
+                if (el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('claimed-toon')) {
+                  return true;
+                }
+
                 el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Claimed)';
-                el.classList.add('claimed-toon');
-            } else {
-              el.classList.add('unclaimed-toon');
+                var claimed_img = document.createElement("img");
+                claimed_img.classList.add('claimed-toon');
+                claimed_img.src = chrome.runtime.getURL("/static/images/claimed.png");
+                
+                el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('claimed-toon');
+                el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(claimed_img);
+              } else {
+                if (el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('unclaimed-toon')) {
+                  return true;
+                }
+                el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Unclaimed)';
+
+                var unclaimed_img = document.createElement("img");
+                unclaimed_img.classList.add('unclaimed-toon');
+                unclaimed_img.src = chrome.runtime.getURL("/static/images/unclaimed.png");                
+                el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('unclaimed-toon');
+                el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(unclaimed_img);
+              }
             }
           }
       });
@@ -24,14 +45,13 @@ function updateToons() {
       matches = document.querySelectorAll(".item--title");
       matches.forEach(function(el) {
           els = el.innerHTML.split('TOONZ #');
-          els = els[1].split(' (Claimed)');
+          els = els[1].split(' (');
           token_id = els[0];        
           
           if (toons.includes(parseInt(token_id))) {
               el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Claimed)';
-              el.classList.add('claimed-toon');
           } else {
-            el.classList.add('unclaimed-toon');
+            el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Unclaimed)';
           }
       });
     }

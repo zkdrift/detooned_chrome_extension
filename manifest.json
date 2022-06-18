@@ -13,7 +13,7 @@
     "content_scripts": [
       {
         "matches": [
-          "https://opensea.io/collection/degentoonz-collection/*",
+          "https://opensea.io/collection/degentoonz-collection*",
           "https://opensea.io/assets/ethereum/*"
         ],
         "css": ["static/css/main.css"],
@@ -27,6 +27,7 @@
     "host_permissions": ["https://detooned.s3.amazonaws.com/detooned.json"],
     "icons": {
       "128": "icon.png"
-    }
+    },
+    "web_accessible_resources": [{ "resources": ["static/images/*"], "matches": ["https://opensea.io/*"] }]
   }
   

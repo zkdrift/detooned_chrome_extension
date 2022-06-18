@@ -1,11 +1,23 @@
-.claimed-toon {
-    color: aqua;
+img.claimed-toon {
+    z-index: 1;
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 5px;
+    -webkit-filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));
+    filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));    
 }
 
-.unclaimed-toon {
-    background-color: yellow;
-}
-
-.unclaimed-toon::before {
-    content: "🧨🧨🧨";
+img.unclaimed-toon {
+    z-index: 1;
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 5px;
+    -webkit-filter: drop-shadow(2px 2px 1px rgb(255, 255, 255));
+         filter: drop-shadow(2px 2px 1px rgb(255, 255, 255));
 }
