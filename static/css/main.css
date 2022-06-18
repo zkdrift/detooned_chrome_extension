@@ -1,7 +1,7 @@
 img.claimed-toon {
     z-index: 1;
-    height: 32px;
-    width: 32px;
+    height: 48px;
+    width: 48px;
     position: absolute;
     top: 0px;
     left: 0px;
@@ -12,8 +12,8 @@ img.claimed-toon {
 
 img.unclaimed-toon {
     z-index: 1;
-    height: 32px;
-    width: 32px;
+    height: 48px;
+    width: 48px;
     position: absolute;
     top: 0px;
     left: 0px;
