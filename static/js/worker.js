@@ -40,11 +40,21 @@ function updateToons() {
 
               if (detonated_toons.includes(parseInt(token_id))) {
                 if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('detonated-toon')) {
+                  var detonated_link = document.createElement("a");
+                  toons.forEach(function(toon){
+                    if (toon.token_id == token_id) {
+                      detonated_token_id = toon.detonated_token_id;
+                      detonated_link_string = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + detonated_token_id;
+                    }
+                  });
+
+                  detonated_link.setAttribute('href', detonated_link_string);       
                   var detonated_img = document.createElement("img");
                   detonated_img.classList.add('detonated-toon');
                   detonated_img.src = chrome.runtime.getURL("/static/images/detonated.png");                    
                   el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('detonated-toon');
-                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(detonated_img);
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(detonated_link);
+                  detonated_link.appendChild(detonated_img);
                 }
               } else {
                 if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('undetonated-toon')) {
@@ -59,11 +69,23 @@ function updateToons() {
 
               if (mutated_toons.includes(parseInt(token_id))) {
                 if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('mutated-toon')) {
+                  var mutated_link = document.createElement("a");
+                  toons.forEach(function(toon){
+                    if (toon.token_id == token_id) {
+                      mutated_token_id = toon.mutated_token_id;
+                      mutated_link_string = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + mutated_token_id;
+                    }
+                  });
+
+                  mutated_link.setAttribute('href', mutated_link_string);                  
+
                   var mutated_img = document.createElement("img");
                   mutated_img.classList.add('mutated-toon');
                   mutated_img.src = chrome.runtime.getURL("/static/images/mutated.png");                    
                   el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('mutated-toon');
-                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(mutated_img);
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(mutated_link);
+                  mutated_link.appendChild(mutated_img);
+
                 }
                 } else {
                   if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('unmutated-toon')) {                  
@@ -80,6 +102,7 @@ function updateToons() {
 
       // update individual item pages
       appended_title = [];
+      links = [];
       detonated_token_id = 0;
       mutated_token_id = 0;
       is_item_page = 0;
@@ -99,6 +122,13 @@ function updateToons() {
                   if (toon.token_id == token_id) {
                     mutated_token_id = toon.mutated_token_id;
                     mutated_link = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + mutated_token_id;
+                    link = document.createElement('a');
+                    link.setAttribute('href', mutated_link);
+                    link.classList.add('disposable-link');                    
+                    link.innerHTML = 'View Mutated Toon';
+  
+                    links.unshift(link);
+                      
                   }
                 });
                 appended_title.unshift("Mutated @ #" + mutated_token_id);
@@ -111,6 +141,12 @@ function updateToons() {
                   if (toon.token_id == token_id) {
                     detonated_token_id = toon.detonated_token_id;
                     detonated_link = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + detonated_token_id;
+                    link = document.createElement('a');
+                    link.setAttribute('href', detonated_link);
+                    link.classList.add('disposable-link');
+                    link.innerHTML = 'View Detonated Toon';
+  
+                    links.unshift(link);
                   }
                 });
                 appended_title.unshift("Detonated @ #" + detonated_token_id);
@@ -119,6 +155,12 @@ function updateToons() {
                 //appended_title.unshift("Unclaimed");
               }            
               el.innerHTML = "TOONZ #" + token_id + "(" + appended_title.join() + ")";
+              document.querySelectorAll('.disposable-link').forEach(function(link){
+                link.remove();
+              });
+              links.forEach(function(link){
+                el.after(link)
+              });            
           });            
         }
       }
@@ -128,22 +170,38 @@ function updateToons() {
 }
 
 // a bit hacky, couldnt figure out how to get it to just monitor for the right changes so had to revert to a timer :(
-const observer = new MutationObserver((mutations) => { 
+function setupObserver() {
+  observer = new MutationObserver((mutations) => { 
     mutations.forEach((mutation) => {
       const el = mutation.target;
       needs_update = true;
     });
  });
 
-if (document.querySelector("[role=grid]") != null) { // monitor the page for any changes
-  observer.observe(document.querySelector("[role=grid]"), { 
-    attributes: true, 
-    subtree: true,
-    childList: true
-  });
+  if (document.querySelector("[role=grid]") != null) { // monitor the page for any changes
+    observer.observe(document.querySelector("[role=grid]"), { 
+      attributes: true, 
+      subtree: true,
+      childList: true
+    });
+  }
+}
+let lastUrl = location.href; 
+new MutationObserver(() => {
+  const url = location.href;
+  if (url !== lastUrl) {
+    lastUrl = url;
+    onUrlChange();
+  }
+}).observe(document, {subtree: true, childList: true});
+ 
+ 
+function onUrlChange() {
+  setTimeout(syncChain, 500);
 }
 
 function syncChain() {
+  setupObserver();
   if (chrome.runtime?.id) { // make sure in context of window still and not unloaded
       chrome.runtime.sendMessage({function: "updateToons"}, function(response) { // send a message to the background service to re-fetch data of claimed toons
 
