@@ -10,6 +10,56 @@ img.claimed-toon {
     filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));    
 }
 
+img.detonated-toon {
+    z-index: 1;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    padding: 5px;
+    -webkit-filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));
+    filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));    
+}
+
+img.mutated-toon {
+    z-index: 1;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    padding: 5px;
+    -webkit-filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));
+    filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));    
+}
+
+
+img.undetonated-toon {
+    z-index: 1;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 40px;
+    left: 0px;
+    padding: 5px;
+    -webkit-filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));
+    filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));    
+}
+
+img.unmutated-toon {
+    z-index: 1;
+    height: 48px;
+    width: 48px;
+    position: absolute;
+    top: 80px;
+    left: 0px;
+    padding: 5px;
+    -webkit-filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));
+    filter: drop-shadow(2px 2px 1px rgba(255, 255, 255));    
+}
+
+
 img.unclaimed-toon {
     z-index: 1;
     height: 48px;

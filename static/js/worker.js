@@ -1,59 +1,127 @@
+claimed_toons = [];
+detonated_toons = [];
+mutated_toons = [];
 toons = [];
+
 needs_update = false;
 
 
 
 function updateToons() {  
-  if (needs_update && toons.length > 0) {
+  if (needs_update && claimed_toons.length > 0) {
       // update search listings
       matches = document.querySelectorAll(".AssetsSearchView--assets > div > div > div > div > div > article > a > div:nth-child(2) > div:nth-child(1) > div > div")
       matches.forEach(function(el) {
           if (el.innerHTML) {
             els = el.innerHTML.split('TOONZ #');
-            els = els[1].split(' (');
-            token_id = els[0];        
-            if (true) {
-              if (toons.includes(parseInt(token_id))) {
-                if (el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('claimed-toon')) {
-                  return true;
-                }
+            if (els.length > 1) {
+              els = els[1].split(' (');
+              token_id = els[0];        
 
-                el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Claimed)';
-                var claimed_img = document.createElement("img");
-                claimed_img.classList.add('claimed-toon');
-                claimed_img.src = chrome.runtime.getURL("/static/images/claimed.png");
-                
-                el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('claimed-toon');
-                el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(claimed_img);
+              if (claimed_toons.includes(parseInt(token_id))) {
+                if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('claimed-toon')) {
+                  el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Claimed)';
+                  var claimed_img = document.createElement("img");
+                  claimed_img.classList.add('claimed-toon');
+                  claimed_img.src = chrome.runtime.getURL("/static/images/claimed.png");                    
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('claimed-toon');
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(claimed_img);
+                }
               } else {
-                if (el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('unclaimed-toon')) {
-                  return true;
+                if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('unclaimed-toon')) {
+                  el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Unclaimed)';
+                  var unclaimed_img = document.createElement("img");
+                  unclaimed_img.classList.add('unclaimed-toon');
+                  unclaimed_img.src = chrome.runtime.getURL("/static/images/unclaimed.png");                
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('unclaimed-toon');
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(unclaimed_img);
                 }
-                el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Unclaimed)';
-
-                var unclaimed_img = document.createElement("img");
-                unclaimed_img.classList.add('unclaimed-toon');
-                unclaimed_img.src = chrome.runtime.getURL("/static/images/unclaimed.png");                
-                el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('unclaimed-toon');
-                el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(unclaimed_img);
               }
-            }
+
+              if (detonated_toons.includes(parseInt(token_id))) {
+                if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('detonated-toon')) {
+                  var detonated_img = document.createElement("img");
+                  detonated_img.classList.add('detonated-toon');
+                  detonated_img.src = chrome.runtime.getURL("/static/images/detonated.png");                    
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('detonated-toon');
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(detonated_img);
+                }
+              } else {
+                if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('undetonated-toon')) {
+                  var undetonated_img = document.createElement("img");
+                  undetonated_img.classList.add('undetonated-toon');
+                  undetonated_img.src = chrome.runtime.getURL("/static/images/undetonated.png");                    
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('undetonated-toon');
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(undetonated_img);                
+                }
+              }
+
+
+              if (mutated_toons.includes(parseInt(token_id))) {
+                if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('mutated-toon')) {
+                  var mutated_img = document.createElement("img");
+                  mutated_img.classList.add('mutated-toon');
+                  mutated_img.src = chrome.runtime.getURL("/static/images/mutated.png");                    
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('mutated-toon');
+                  el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(mutated_img);
+                }
+                } else {
+                  if (!el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.contains('unmutated-toon')) {                  
+                    var unmutated_img = document.createElement("img");
+                    unmutated_img.classList.add('unmutated-toon');
+                    unmutated_img.src = chrome.runtime.getURL("/static/images/unmutated.png");                    
+                    el.parentElement.parentElement.parentElement.parentElement.parentElement.classList.add('unmutated-toon');
+                    el.parentElement.parentElement.parentElement.parentElement.parentElement.appendChild(unmutated_img);
+                  }
+                }
+              }                
           }
       });
 
       // update individual item pages
-      matches = document.querySelectorAll(".item--title");
-      matches.forEach(function(el) {
-          els = el.innerHTML.split('TOONZ #');
-          els = els[1].split(' (');
-          token_id = els[0];        
-          
-          if (toons.includes(parseInt(token_id))) {
-              el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Claimed)';
-          } else {
-            el.innerHTML = 'TOONZ #' + parseInt(token_id) + ' (Unclaimed)';
-          }
-      });
+      appended_title = [];
+      detonated_token_id = 0;
+      mutated_token_id = 0;
+      is_item_page = 0;
+      if (document.querySelector(".CollectionLink--link") && document.querySelector(".CollectionLink--link").href == 'https://opensea.io/collection/degentoonz-collection') {
+        is_item_page = document.location.href.split("0x19b86299c21505cdf59ce63740b240a9c822b5e4/");
+        if (is_item_page.length > 1) {
+          token_id = is_item_page[1];
+          matches = document.querySelectorAll(".item--title");
+          matches.forEach(function(el) {              
+              if (claimed_toons.includes(parseInt(token_id))) {
+                appended_title.unshift("Claimed");
+              } else {
+                appended_title.unshift("Unclaimed");
+              }
+              if (mutated_toons.includes(parseInt(token_id))) {
+                toons.forEach(function(toon){
+                  if (toon.token_id == token_id) {
+                    mutated_token_id = toon.mutated_token_id;
+                    mutated_link = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + mutated_token_id;
+                  }
+                });
+                appended_title.unshift("Mutated @ #" + mutated_token_id);
+              } else {
+                //appended_title.unshift("");
+              }
+              
+              if (detonated_toons.includes(parseInt(token_id))) {
+                toons.forEach(function(toon){
+                  if (toon.token_id == token_id) {
+                    detonated_token_id = toon.detonated_token_id;
+                    detonated_link = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + detonated_token_id;
+                  }
+                });
+                appended_title.unshift("Detonated @ #" + detonated_token_id);
+  
+              } else {
+                //appended_title.unshift("Unclaimed");
+              }            
+              el.innerHTML = "TOONZ #" + token_id + "(" + appended_title.join() + ")";
+          });            
+        }
+      }
     }
     needs_update = false;
     setTimeout(updateToons, 500);
@@ -78,11 +146,25 @@ if (document.querySelector("[role=grid]") != null) { // monitor the page for any
 function syncChain() {
   if (chrome.runtime?.id) { // make sure in context of window still and not unloaded
       chrome.runtime.sendMessage({function: "updateToons"}, function(response) { // send a message to the background service to re-fetch data of claimed toons
-        toons = [];      
-        response.forEach(function(v) {
-            toons.unshift(v.token_id);
+
+        claimed_toons = [];
+        detonated_toons = [];
+        mutated_toons = [];
+        toons = [];
+        response.forEach(function(v){
+          if (v.mutated) {
+            mutated_toons.unshift(v.token_id);
+          }
+          if (v.dynamite_claimed) {
+            claimed_toons.unshift(v.token_id);
+          }
+          if (v.detonated) {
+            detonated_toons.unshift(v.token_id);
+          }
+
+          toons.unshift({token_id: v.token_id, mutated_token_id: v.mutated_token_id, detonated_token_id: v.detonated_token_id});
         });
-        
+
         needs_update = true;
         updateToons(); // update the page to show
     });
