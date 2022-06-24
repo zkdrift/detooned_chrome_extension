@@ -2,7 +2,7 @@
   "update_url": "https://clients2.google.com/service/update2/crx",  
     "name": "Detooned",
     "description": "Adds dynamite claim status for Degen Toonz NFT Project to OpenSea",
-    "version": "1.4",
+    "version": "1.5",
     "manifest_version": 3,
     "action": {
       "icons": {
