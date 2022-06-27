@@ -44,7 +44,7 @@ function updateToons() {
                   toons.forEach(function(toon){
                     if (toon.token_id == token_id) {
                       detonated_token_id = toon.detonated_token_id;
-                      detonated_link_string = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + detonated_token_id;
+                      detonated_link_string = "https://opensea.io/assets/ethereum/0x479e2cfa68c4a30eb37404044e195858a1d2eddc/" + detonated_token_id;
                     }
                   });
 
@@ -73,7 +73,7 @@ function updateToons() {
                   toons.forEach(function(toon){
                     if (toon.token_id == token_id) {
                       mutated_token_id = toon.mutated_token_id;
-                      mutated_link_string = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + mutated_token_id;
+                      mutated_link_string = "https://opensea.io/assets/ethereum/0x479e2cfa68c4a30eb37404044e195858a1d2eddc/" + mutated_token_id;
                     }
                   });
 
@@ -121,7 +121,7 @@ function updateToons() {
                 toons.forEach(function(toon){
                   if (toon.token_id == token_id) {
                     mutated_token_id = toon.mutated_token_id;
-                    mutated_link = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + mutated_token_id;
+                    mutated_link = "https://opensea.io/assets/ethereum/0x479e2cfa68c4a30eb37404044e195858a1d2eddc/" + mutated_token_id;
                     link = document.createElement('a');
                     link.setAttribute('href', mutated_link);
                     link.classList.add('disposable-link');                    
@@ -140,7 +140,7 @@ function updateToons() {
                 toons.forEach(function(toon){
                   if (toon.token_id == token_id) {
                     detonated_token_id = toon.detonated_token_id;
-                    detonated_link = "https://opensea.io/assets/ethereum/0x43a15a4189d0e6b2267be93a5bcf6013bf423534/" + detonated_token_id;
+                    detonated_link = "https://opensea.io/assets/ethereum/0x479e2cfa68c4a30eb37404044e195858a1d2eddc/" + detonated_token_id;
                     link = document.createElement('a');
                     link.setAttribute('href', detonated_link);
                     link.classList.add('disposable-link');
