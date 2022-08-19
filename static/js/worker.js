@@ -204,11 +204,13 @@ function syncChain() {
   setupObserver();
   if (chrome.runtime?.id) { // make sure in context of window still and not unloaded
       chrome.runtime.sendMessage({function: "updateToons"}, function(response) { // send a message to the background service to re-fetch data of claimed toons
-
+        console.log("Response from update");
         claimed_toons = [];
         detonated_toons = [];
         mutated_toons = [];
         toons = [];
+        console.log(response);
+
         response.forEach(function(v){
           if (v.mutated) {
             mutated_toons.unshift(v.token_id);
